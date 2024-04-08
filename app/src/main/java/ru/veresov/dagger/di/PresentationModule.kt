@@ -1,15 +1,18 @@
 package ru.veresov.dagger.di
 
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
-import ru.veresov.dagger.presentation.factory.MainViewModelFactory
+import dagger.multibindings.IntoMap
+import ru.veresov.dagger.presentation.MainActivityViewModel
+import ru.veresov.dagger.presentation.util.ViewModelKey
 
 @Module
 interface PresentationModule {
 
     @Binds
-    fun provideViewModelFactory(
-        factory: MainViewModelFactory
-    ): ViewModelProvider.Factory
+    @[IntoMap ViewModelKey(MainActivityViewModel::class)]
+    fun provideMainViewModel(
+        mainViewModel: MainActivityViewModel
+    ): ViewModel
 }

@@ -8,8 +8,9 @@ import kotlinx.coroutines.launch
 import ru.veresov.dagger.domain.model.LoadCharacterResult
 import ru.veresov.dagger.domain.repository.CharacterRepository
 import ru.veresov.dagger.presentation.state.MainScreenState
+import javax.inject.Inject
 
-class MainActivityViewModel(
+class MainActivityViewModel @Inject constructor(
     private val repository: CharacterRepository,
     private val catalogMapper: LoadCharacterResult.CharacterMapper<MainScreenState>,
 ) : ViewModel() {

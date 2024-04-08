@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import ru.veresov.dagger.databinding.ActivityMainBinding
-import ru.veresov.dagger.presentation.factory.MainViewModelFactory
+import ru.veresov.dagger.presentation.factory.ViewModelFactory
 import ru.veresov.dagger.presentation.model.CharacterUi
 import ru.veresov.dagger.presentation.state.MainScreenState
 import ru.veresov.dagger.presentation.util.appComponent
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var viewModelFactory: MainViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: MainActivityViewModel
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
