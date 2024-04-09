@@ -1,5 +1,6 @@
 package ru.veresov.dagger.data.repository
 
+import io.reactivex.rxjava3.core.Single
 import ru.veresov.dagger.data.model.request.CharacterId
 import ru.veresov.dagger.data.network.Api
 import ru.veresov.dagger.data.network.RemoteDataFetcher
@@ -12,21 +13,24 @@ class CharacterRepositoryImpl @Inject constructor(
     private val api: Api
 ) : RemoteDataFetcher(), CharacterRepository {
 
-    override suspend fun loadCharacterById(): LoadCharacterResult {
+    override fun loadCharacterById(): Single<LoadCharacterResult> {
         val characterId = CharacterId(1)
 
-        val loadResult = when (val response = executeRequest { api.loadCharacters(characterId) }) {
-            is ResponseResult.Error -> {
-                LoadCharacterResult.Error(
-                    response.message,
-                    response.code
-                )
-            }
+        return executeRequest { api.loadCharacters(characterId) }
+            .map { response ->
+                when (response) {
+                    is ResponseResult.Error -> {
+                        LoadCharacterResult.Error(
+                            response.message,
+                            response.code
+                        )
+                    }
 
-            is ResponseResult.Success -> {
-                LoadCharacterResult.Success(response.data.toDomainObject())
+                    is ResponseResult.Success -> {
+                        val data = response.data.toDomainObject()
+                        LoadCharacterResult.Success(data)
+                    }
+                }
             }
-        }
-        return loadResult
     }
 }

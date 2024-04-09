@@ -3,8 +3,9 @@ package ru.veresov.dagger.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.veresov.dagger.domain.model.LoadCharacterResult
 import ru.veresov.dagger.domain.repository.CharacterRepository
 import ru.veresov.dagger.presentation.state.MainScreenState
@@ -17,13 +18,21 @@ class MainActivityViewModel @Inject constructor(
 
     private val _internalCharacterData = MutableLiveData<MainScreenState>(MainScreenState.Loading)
     val externalCharacterData: LiveData<MainScreenState> get() = _internalCharacterData
+    private val disposeBag = CompositeDisposable()
 
     fun load() {
-        viewModelScope.launch {
-            val result = repository.loadCharacterById()
-            val state = result.map(catalogMapper)
-            _internalCharacterData.postValue(state)
-        }
+        val response = repository.loadCharacterById()
+        val disposable = response.subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { loadResult ->
+                val state = loadResult.map(catalogMapper)
+                _internalCharacterData.postValue(state)
+            }
+        disposeBag.add(disposable)
     }
 
+    override fun onCleared() {
+        disposeBag.clear()
+        super.onCleared()
+    }
 }

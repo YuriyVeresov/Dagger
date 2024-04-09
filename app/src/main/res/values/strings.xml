@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dagger</string>
+    <string name="button_text">some button</string>
 </resources>

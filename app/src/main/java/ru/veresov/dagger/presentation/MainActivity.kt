@@ -3,6 +3,7 @@ package ru.veresov.dagger.presentation
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -32,6 +33,13 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory)[MainActivityViewModel::class.java]
         viewModel.load()
         observeViewModel()
+        setClickListener()
+    }
+
+    private fun setClickListener() {
+        vb.btnButton.setOnClickListener {
+            Toast.makeText(this, "enabled for tap", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun observeViewModel() {
@@ -64,6 +72,7 @@ class MainActivity : AppCompatActivity() {
     private fun showSuccessState(character: CharacterUi) {
         vb.progressBar.visibility = GONE
         vb.tvTextView.text = character.toString()
+        vb.btnButton.visibility = GONE
     }
 
     override fun onDestroy() {

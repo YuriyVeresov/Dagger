@@ -1,7 +1,8 @@
 package ru.veresov.dagger.domain.repository
 
+import io.reactivex.rxjava3.core.Single
 import ru.veresov.dagger.domain.model.LoadCharacterResult
 
 interface CharacterRepository {
-    suspend fun loadCharacterById(): LoadCharacterResult
+    fun loadCharacterById(): Single<LoadCharacterResult>
 }

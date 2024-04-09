@@ -1,7 +1,8 @@
 package ru.veresov.dagger.data.network
 
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 
 internal interface ApiDataFetcher {
-    suspend fun <T> executeRequest(request: suspend () -> Response<T>): ResponseResult<T>
+    fun <T> executeRequest(request: () -> Single<Response<T>>): Single<ResponseResult<T>>
 }

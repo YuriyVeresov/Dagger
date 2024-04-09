@@ -1,5 +1,6 @@
 package ru.veresov.dagger.data.network
 
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -8,7 +9,7 @@ import ru.veresov.dagger.data.model.request.CharacterId
 
 interface Api {
     @GET("character/{id}")
-    suspend fun loadCharacters(
+    fun loadCharacters(
         @Path("id") id: CharacterId
-    ): Response<CharacterDto>
+    ): Single<Response<CharacterDto>>
 }

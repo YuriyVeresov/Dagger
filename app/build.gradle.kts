@@ -63,4 +63,9 @@ dependencies {
     //lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.activity.ktx)
+    //rxJava
+    implementation (libs.rxandroid)
+    implementation (libs.rxjava)
+    implementation(libs.adapter.rxjava3)
+
 }
